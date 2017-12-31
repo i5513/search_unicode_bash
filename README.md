@@ -1,6 +1,8 @@
 # search_unicode
 * Inspired on http://pusling.com/blog/?p=451
 * Implemented with bash
+* Was not able to find https://github.com/tst2005/sh-unicode before I wrote this script
+
 # Usage
 ```
 $ ./search_unicode -h
