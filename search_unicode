@@ -1,0 +1,55 @@
+#!/bin/bash
+
+function help
+{
+	cat <<EOH
+For each term search unicode character where its definition contain the term.
+Usage: $0 [-h] [-l] [-r] term1 term2
+	-h this help
+	-l large description
+	-r choose a random character
+EOH
+	exit 1
+}
+UNICODEDATA="/usr/share/unicode/UnicodeData.txt"
+
+[ -f "$UNICODEDATA" ] || 
+{ 
+  echo "File $UNICODEDATA not found," >&2
+  echo "Install \"unicode-data\" (at least at Debian), and try again" >&2
+  exit 1 
+}
+
+while getopts hlr opt;
+do
+	case $opt in
+		h) help ;;
+		l) large=1 ;;
+		r) randomized=1 ;;
+	esac
+done
+shift $((OPTIND-1))
+
+declare -A chars
+for a in "$@"
+do
+	chars[$a]="$(sed 's,;, ,g' $UNICODEDATA | awk -v c="$a" \
+		'BEGIN {IGNORECASE=1;} $0 ~ c {print $1;}' )"
+
+	if [ "$randomized" = 1 ]
+	then
+		chars[$a]="$(echo "${chars[$a]}" | sort -R | head -n 1)"
+	fi
+done
+for a in "$@"
+do
+	for c in ${chars[$a]}
+	do
+		if [ "$large" = 1 ]
+		then
+			printf "\U$c $(grep "^$c;" $UNICODEDATA)\n"
+		else
+			printf "\U$c "
+		fi
+	done | sed 's, $,\n,'
+done
