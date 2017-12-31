@@ -1,6 +1,15 @@
 # search_unicode
 * Inspired on http://pusling.com/blog/?p=451
 * Implemented with bash
+# Usage
+```
+$ ./search_unicode -h
+For each term search unicode character where its definition contain the term.
+Usage: ./search_unicode [-h] [-l] [-r] term1 term2
+	-h this help
+	-l large description
+	-r choose a random character
+```
 ## Examples:
 ```
 $ bash search_unicode -l " car " " bus "
