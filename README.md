@@ -12,7 +12,7 @@ Usage: ./search_unicode [-h] [-l] [-r] term1 term2
 ```
 ## Examples:
 ```
-$ bash search_unicode -l " car " " bus "
+$ ./search_unicode -l " car " " bus "
 ⛍ 26CD;DISABLED CAR;So;0;ON;;;;;N;;;;;
 ⛐ 26D0;CAR SLIDING;So;0;ON;;;;;N;;;;;
 𐕂 10542;CAUCASIAN ALBANIAN LETTER CAR;Lo;0;L;;;;;N;;;;;
@@ -24,10 +24,10 @@ $ bash search_unicode -l " car " " bus "
 🚌 1F68C;BUS;So;0;ON;;;;;N;;;;;
 🚍 1F68D;ONCOMING BUS;So;0;ON;;;;;N;;;;;
 🚏 1F68F;BUS STOP;So;0;ON;;;;;N;;;;;
-$ bash search_unicode -r " car " " bus "
+$ ./search_unicode -r " car " " bus "
 𐕂
 🚍
-$ bash search_unicode " car " " bus "
+$ ./search_unicode " car " " bus "
 ⛍ ⛐ 𐕂 🏎 🚃 🚋 🚓 🚔
 🚌 🚍 🚏
 ```
