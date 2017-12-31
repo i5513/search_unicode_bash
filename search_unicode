@@ -2,14 +2,14 @@
 
 function help
 {
-	cat <<EOH
+  cat <<EOH
 For each term search unicode character where its definition contain the term.
 Usage: $0 [-h] [-l] [-r] term1 term2
-	-h this help
-	-l large description
-	-r choose a random character
+  -h this help
+  -l large description
+  -r choose a random character
 EOH
-	exit 1
+  exit 1
 }
 UNICODEDATA="/usr/share/unicode/UnicodeData.txt"
 
@@ -22,34 +22,36 @@ UNICODEDATA="/usr/share/unicode/UnicodeData.txt"
 
 while getopts hlr opt;
 do
-	case $opt in
-		h) help ;;
-		l) large=1 ;;
-		r) randomized=1 ;;
-	esac
+  case $opt in
+    h) help ;;
+    l) large=1 ;;
+    r) randomized=1 ;;
+  esac
 done
 shift $((OPTIND-1))
 
 declare -A chars
 for a in "$@"
 do
-	chars[$a]="$(sed 's,;, ,g' $UNICODEDATA | awk -v c="$a" \
-		'BEGIN {IGNORECASE=1;} $0 ~ c {print $1;}' )"
+  chars[$a]="$(sed 's,;, ,g' $UNICODEDATA | awk -v c="$a" \
+    'BEGIN {IGNORECASE=1;} $0 ~ c {print $1;}' )"
 
-	if [ "$randomized" = 1 ]
-	then
-		chars[$a]="$(echo "${chars[$a]}" | sort -R | head -n 1)"
-	fi
+  if [ "$randomized" = 1 ]
+  then
+    chars[$a]="$(echo "${chars[$a]}" | sort -R | head -n 1)"
+  fi
 done
 for a in "$@"
 do
-	for c in ${chars[$a]}
-	do
-		if [ "$large" = 1 ]
-		then
-			printf "\U$c $(grep "^$c;" $UNICODEDATA)\n"
-		else
-			printf "\U$c "
-		fi
-	done | sed 's, $,\n,'
+  for c in ${chars[$a]}
+  do
+    if [ "$large" = 1 ]
+    then
+      printf "\U$c $(grep "^$c;" $UNICODEDATA)\n"
+    else
+      printf "\U$c "
+    fi
+  done | sed 's, $,\n,'
 done
+
+# vim: tabstop=2 shiftwidth=2 expandtab
